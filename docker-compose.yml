@@ -1,0 +1,28 @@
+version: '3'
+services:
+    frontend-app:
+        container_name: react-app
+        build:
+          context: ./react-app
+          dockerfile: Dockerfile
+        ports:
+          - 80:80
+        links:
+          - backend-app
+    backend-app:
+        container_name: node-app
+        restart: always
+        build: ./node-data-app
+        ports:
+          - 3000:3000
+        links:
+          - mymongo
+    mymongo:
+        image: mongo:latest
+        ports:
+        - 27017:27017
+        volumes:
+        - mongodata:/data/db        
+
+volumes:
+    mongodata:
